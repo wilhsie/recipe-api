@@ -40,7 +40,25 @@ class RecipesController < ApplicationController
         recipe.destroy
     end
 
+    # Add a PUT route that can update existing recipes.
+    # take name as param, so route looks smth like recipes/butteredBagel
     def update
-        puts "reached update function in recipes controller"
+        recipeName = params[:id]
+        recipes = Recipe.all
+        data = json_payload.select {|k| ALLOWED_DATA.include?(k)}
+        doesRecipeExist = false
+
+        # if recipeName exists in recipes, update recipes[recipeName] with PUT data
+        recipes.each do |r|
+            if r.name == recipeName
+                r.ingredients = data["ingredients"]
+                r.instructions = data["instructions"]
+                doesRecipeExist = true
+            end
+        end
+
+        if !doesRecipeExist
+            render json: {"error": "Recipe does not exist"}, :status => :not_found
+        end
     end
 end

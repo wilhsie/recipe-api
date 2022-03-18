@@ -1,4 +1,4 @@
-# Recipe-api // hatchways.io backend assessment in ruby
+# Recipe-api // simple api in ruby
 ruby 3.1.1
 rails 7.0.2.2
 postgres 12.10
